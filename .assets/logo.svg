@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <defs>
+    <linearGradient id="bloodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b0000;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff0000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b0000;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="120" fill="#0a0a0a"/>
+  
+  <!-- Blood Drop 1 -->
+  <path d="M50,20 Q50,60 30,80 Q50,100 70,80 Q50,60 50,20" 
+        fill="url(#bloodGrad)" filter="url(#glow)"/>
+  
+  <!-- Blood Drop 2 -->
+  <path d="M100,30 Q100,60 85,75 Q100,90 115,75 Q100,60 100,30" 
+        fill="#ff0000" opacity="0.7"/>
+  
+  <!-- Text -->
+  <text x="140" y="55" font-family="Courier New, monospace" font-size="32" 
+        font-weight="bold" fill="#ff4444" filter="url(#glow)">
+    BLOOD-WEB
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="142" y="80" font-family="Courier New, monospace" font-size="14" 
+        fill="#888">
+    HONEYPOT v1.0
+  </text>
+  
+  <!-- Blood drops animation effect -->
+  <circle cx="320" cy="40" r="5" fill="#ff0000" opacity="0.6">
+    <animate attributeName="cy" values="40;80;40" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="350" cy="50" r="4" fill="#8b0000" opacity="0.5">
+    <animate attributeName="cy" values="50;90;50" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.5;0;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="370" cy="35" r="3" fill="#ff0000" opacity="0.4">
+    <animate attributeName="cy" values="35;75;35" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0;0.4" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+</svg>

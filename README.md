@@ -3,206 +3,228 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/Educational%20Purpose-Yes-red.svg" alt="Educational">
+  <img src="https://img.shields.io/badge/Stars-Open-blueviolet.svg" alt="Stars">
+  <img src="https://img.shields.io/badge/Forks-Welcome-orange.svg" alt="Forks">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/s1d9e/blood-web/main/.assets/logo.svg" width="400" alt="Blood-Web Logo">
 </p>
 
 > *"All that and a bag of chips..."*
 
-**Blood-Web** est un honeypot modulaire et réaliste conçu pour la formation en pentesting et la détection d'attaques réseau.
+**Blood-Web** est un honeypot modulaire et réaliste conçu pour la formation en pentesting et la détection d'attaques réseau. Simulez des services vulnérables et analysez les techniques d'attaque en toute sécurité.
 
-## Avertissement - Important
+<p align="center">
+  <a href="#avertissement---important">⚠️ Avertissement</a •
+  <a href="#-installation">📦 Installation</a •
+  <a href="#-utilisation-rapide">🚀 Utilisation</a •
+  <a href="#-services">🔧 Services</a •
+  <a href="#-dashboard-web">📊 Dashboard</a •
+  <a href="#-contribuer">🤝 Contribuer</a>
+</p>
 
-⚠️ **AVERTISSEMENT LÉGAL**
+---
 
-Blood-Web est un outil à **usage éducatif uniquement**. En utilisant ce projet, vous acceptez les conditions suivantes :
+## ⚠️ Avertissement - Important
 
-- **Vous** êtes responsable de votre utilisation de cet outil
-- **Vous** devez l'utiliser **uniquement** sur :
-  - Votre propre infrastructure
-  - Un environnement de laboratoire isolé
-  - Avec autorisation explicite du propriétaire du système
-- **Toute utilisation malveillante, non autorisée ou illégale est strictement interdite**
-- L'auteur **ne peut être tenu responsable** de toute utilisation abusive, illégale ou non autorisée de ce logiciel
-- Ce projet est fourni "tel quel" **sans aucune garantie**
+> **AVERTISSEMENT LÉGAL**
+>
+> Blood-Web est un outil à **usage éducatif uniquement**.
+>
+> - ✅ Utilisez-le sur **votre propre infrastructure**
+> - ✅ Utilisez-le dans un **environnement de laboratoire isolé**
+> - ✅ Avec **autorisation explicite** du propriétaire du système
+> - ❌ **Toute utilisation malveillante ou non autorisée est interdite**
+>
+> **L'auteur ne peut être tenu responsable de toute utilisation abusive. Voir [LEGAL.md](LEGAL.md)**
 
-**En cas d'utilisation abusive par un tiers, vous êtes seul responsable des conséquences légales.**
+---
 
-*En continuant à utiliser ce projet, vous acceptez ces conditions.*
+## ✨ Fonctionnalités
 
-## Fonctionnalités
+| Feature | Description |
+|---------|-------------|
+| 🛡️ **7 Services** | SSH, FTP, HTTP, Telnet, SMB, MySQL, RDP |
+| 📊 **Dashboard Web** | Monitoring en temps réel avec interface dark theme |
+| 📝 **Logs Structurés** | Fichiers de logs pour analyse forensique |
+| 🎯 **Détection Intelligente** | SQLi, XSS, brute force, path traversal... |
+| ⚙️ **Configurable** | Ports personnalisables, services optionnels |
+| 🐍 **Zero Dépendance** | Python 3.8+ uniquement, pas de `pip install` |
 
-- **7 services simulés** : SSH, FTP, HTTP, Telnet, SMB, MySQL, RDP
-- **Détection d'attaques en temps réel** : brute force, SQL injection, XSS, etc.
-- **Logging structuré** : fichiers JSON pour analyse
-- **Dashboard web** : interface de monitoring en temps réel
-- **Personnalisation** : ports configurables, services optionnels
+---
 
-## Installation
+## 📦 Installation
 
 ```bash
-# Cloner le repository
+# Cloner le repo
 git clone https://github.com/s1d9e/blood-web.git
 cd blood-web
 
-# Aucune dépendance externe requise (Python 3.8+)
+# C'est tout ! Aucune dépendance requise.
+# Python 3.8+ suffit.
+
+# Lancer directement
+python3 blood-web.py
 ```
 
-## Utilisation Rapide
+---
+
+## 🚀 Utilisation Rapide
 
 ```bash
-# Lancer avec les services de base (ports non-privilégiés)
+# === Mode basique (ports non-privilégiés) ===
 python3 blood-web.py
 
-# Lancer avec le dashboard web
+# === Avec le dashboard web (http://localhost:8081) ===
 python3 blood-web.py --web-monitor
 
-# Activer tous les services
+# === Activer tous les services ===
 python3 blood-web.py --ssh --ftp --http --telnet --smb --mysql --rdp
 
-# Ports personnalisés
-python3 blood-web.py --smb --mysql --rdp --custom-ports 2222 2121 8080 2323 445 3306 3389
+# === Mode paranoïaque - tous les services + dashboard ===
+python3 blood-web.py --ssh --ftp --http --telnet --smb --mysql --rdp --web-monitor
+
+# === Ports personnalisés ===
+python3 blood-web.py --custom-ports 2222 2121 8080 2323 4445 33306 33890
+
+# === Ports privilégiés (requiert sudo) ===
+sudo python3 blood-web.py --ssh --ftp --http --telnet
 ```
 
-## Services
+---
 
-| Service | Port (privilégié) | Port (non-privilégié) | Détecte |
-|---------|-------------------|------------------------|---------|
-| SSH | 22 | 2222 | Brute force, username enum |
-| FTP | 21 | 2121 | Creds, directory traversal |
-| HTTP | 80 | 8080 | SQLi, XSS, path traversal, dirbusting |
-| Telnet | 23 | 2323 | Shell commands, offensive tools |
-| SMB | 445 | 4445 | NTLM auth, file shares |
-| MySQL | 3306 | 33306 | SQL injection, enumeration |
-| RDP | 3389 | 33890 | Usernames, connections |
+## 🔧 Services
 
-## Dashboard Web
+| Service | Port Standard | Port Alternatif | Attaques Détectées |
+|---------|---------------|-----------------|---------------------|
+| 🖥️ **SSH** | 22 | 2222 | Brute force, username enum, key exchange |
+| 📁 **FTP** | 21 | 2121 | Creds, directory traversal, file access |
+| 🌐 **HTTP** | 80 | 8080 | SQLi, XSS, path traversal, dirbusting |
+| 📡 **Telnet** | 23 | 2323 | Shell commands, nmap, metasploit |
+| 💾 **SMB** | 445 | 4445 | NTLM auth, shares, sensitive files |
+| 🗄️ **MySQL** | 3306 | 33306 | SQL injection, enumeration, dumps |
+| 🖥️ **RDP** | 3389 | 33890 | Usernames, connections |
 
-Lancez le dashboard pour visualiser les attaques en temps réel :
+---
+
+## 📊 Dashboard Web
+
+Lancez le dashboard et accédez à `http://localhost:8081` :
 
 ```bash
-# Option 1: Via blood-web.py
 python3 blood-web.py --web-monitor --monitor-port 8081
-
-# Option 2: Dashboard autonome
-python3 web_monitor.py --port 8081 --log-dir logs
 ```
 
-Accédez à `http://localhost:8081` pour voir :
-- Nombre total d'attaques
-- Répartition par sévérité (Critical/High/Medium/Low)
-- Feed en temps réel des attaques
-- Top attackers (IPs les plus actives)
-- Stats par service
-
-## Structure du Projet
+### Ce que vous verrez :
 
 ```
-blood-web/
-├── blood-web.py       # Honeypot principal
-├── web_monitor.py     # Dashboard de monitoring
-├── logs/              # Logs d'attaques
-└── README.md
+┌─────────────────────────────────────────────────────────────┐
+│                    🩸 BLOOD-WEB MONITOR                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐     │
+│   │   247    │ │    12    │ │    45    │ │    89    │     │
+│   │  TOTAL   │ │ CRITICAL │ │   HIGH   │ │  MEDIUM  │     │
+│   └──────────┘ └──────────┘ └──────────┘ └──────────┘     │
+│                                                             │
+│   LIVE FEED:                          TOP ATTACKERS:        │
+│   ┌─────────────────────────┐        185.220.101.34  89    │
+│   │ 14:32:15 192.168.1.x   │        45.33.32.156    67    │
+│   │ SQL_INJECTION          │        104.211.55.210   45    │
+│   │───────────────────────│        89.248.165.52    34    │
+│   │ 14:32:10 10.0.0.5      │                               │
+│   │ SSH_BRUTE_FORCE        │        BY SERVICE:            │
+│   │───────────────────────│        SSH    ████████ 89    │
+│   │ 14:31:58 172.16.0.x   │        HTTP   ██████   67    │
+│   │ FTP_TRAVERSAL          │        FTP    ████     45    │
+│   └─────────────────────────┘        SMB    ██      23    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## Format des Logs
+---
 
-Les attaques sont journalisées dans `logs/attacks_YYYYMMDD_HHMMSS.log` :
-
-```
-2026-04-03 12:15:19 | 192.168.1.100:54321 -> ssh | SSH_AUTH_BRUTE_FORCE | User: admin | Severity: HIGH | Payload: 61646d696e...
-```
-
-## Exemples d'Attaques Détectées
+## 🎯 Exemples d'Attaques Détectées
 
 ### SSH Brute Force
 ```bash
-hydra -l admin -P wordlist.txt ssh://target:2222
-```
-
-### FTP Directory Traversal
-```bash
-ftp target 2121
-USER anonymous
-PASS anonymous
-CWD ../../../etc
-LIST
+hydra -l admin -P rockyou.txt ssh://localhost:2222
 ```
 
 ### HTTP SQL Injection
 ```bash
-curl "http://target:8080/login?id=1' OR '1'='1"
+curl "http://localhost:8080/api/user?id=1' OR '1'='1"
 ```
 
-### Telnet Offensive Commands
+### FTP Credential Stuffing
+```bash
+ftp localhost 2121
+USER admin
+PASS password123
 ```
+
+### Telnet avec Outils Offensifs
+```
+localhost:2323
 login: admin
 password: admin123
-$ nmap -sV target
+$ nmap -sV localhost
 $ msfconsole
 ```
 
-### SMB NTLM Capture
-```bash
-smbclient //target/share -U admin
+---
+
+## 📝 Format des Logs
+
+```log
+2026-04-03 14:32:15 | 192.168.1.100:54321 -> ssh | SSH_AUTH_BRUTE_FORCE | User: admin | Severity: HIGH
+2026-04-03 14:32:10 | 10.0.0.5:44321 -> http | SQL_INJECTION | /api/user?id=1' OR 1=1 | Severity: CRITICAL
+2026-04-03 14:31:58 | 172.16.0.20:52341 -> ftp | FTP_CREDENTIALS | admin:password123 | Severity: HIGH
 ```
 
-### MySQL Enumeration
-```bash
-mysql -h target -u root -p
-SHOW DATABASES;
-SELECT * FROM mysql.user;
+---
+
+## 🏗️ Structure
+
+```
+blood-web/
+├── blood-web.py       # Honeypot principal (1054 lignes)
+├── web_monitor.py     # Dashboard de monitoring
+├── logs/              # Logs générés automatiquement
+├── .gitignore
+├── LICENSE            # MIT License
+├── README.md
+└── LEGAL.md           # Mentions légales
 ```
 
-### RDP Username Enum
-```bash
-rdesktop -u admin target:3389
-```
+---
 
-## Personnalisation
+## 🤝 Contribuer
 
-### Modifier les Fake Credentials
+Les contributions sont les bienvenues ! 
 
-Dans `blood-web.py`, modifiez les dictionnaires :
+1. **Fork** le projet
+2. Créez une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit (`git commit -m 'Add AmazingFeature'`)
+4. Push (`git push origin feature/AmazingFeature`)
+5. Ouvrez une **Pull Request**
 
-```python
-# SSH fake users
-self.fake_users = {
-    "admin": {"pass": "yourpassword", ...},
-    ...
-}
+---
 
-# FTP fake filesystem
-self.fake_files = {
-    "/home/admin": [".ssh/id_rsa", "credentials.txt"],
-    ...
-}
-```
-
-### Ajouter de Nouveaux Services
-
-```python
-class CustomHoneypot(HoneypotService):
-    def __init__(self, port: int = 9999):
-        super().__init__(ServiceType.CUSTOM, port)
-        
-    def _handle_connection(self, client, addr):
-        # Votre logique personnalisée
-        self.log_attack(addr, "CUSTOM_ATTACK", "description", "HIGH")
-```
-
-## Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-- Signaler des bugs
-- Proposer de nouvelles fonctionnalités
-- Soumettre des pull requests
-
-## Licence
+## 📜 Licence
 
 MIT License - Voir [LICENSE](LICENSE)
 
 ---
 
+## 🙏 Remerciements
+
+- Thème **Gothic** inspiré de Resident Evil Village ♡
+- Développé pour la communauté cybersécurité française 🇫🇷
+
+---
+
 <p align="center">
-  <sub>Blood-Web Honeypot - For Educational Purposes Only</sub>
+  <sub>Made with 🩸 by <a href="https://github.com/s1d9e">s1d9e</a> | Blood-Web Honeypot - For Educational Purposes Only</sub>
 </p>
