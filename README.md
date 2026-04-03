@@ -10,9 +10,24 @@
 
 **Blood-Web** est un honeypot modulaire et réaliste conçu pour la formation en pentesting et la détection d'attaques réseau.
 
-## Avertissement
+## Avertissement - Important
 
-⚠️ **Ce projet est à usage éducatif uniquement.** Utilisez Blood-Web uniquement sur votre propre réseau ou dans un environnement de laboratoire isolé. Toute utilisation malveillante est strictement interdite.
+⚠️ **AVERTISSEMENT LÉGAL**
+
+Blood-Web est un outil à **usage éducatif uniquement**. En utilisant ce projet, vous acceptez les conditions suivantes :
+
+- **Vous** êtes responsable de votre utilisation de cet outil
+- **Vous** devez l'utiliser **uniquement** sur :
+  - Votre propre infrastructure
+  - Un environnement de laboratoire isolé
+  - Avec autorisation explicite du propriétaire du système
+- **Toute utilisation malveillante, non autorisée ou illégale est strictement interdite**
+- L'auteur **ne peut être tenu responsable** de toute utilisation abusive, illégale ou non autorisée de ce logiciel
+- Ce projet est fourni "tel quel" **sans aucune garantie**
+
+**En cas d'utilisation abusive par un tiers, vous êtes seul responsable des conséquences légales.**
+
+*En continuant à utiliser ce projet, vous acceptez ces conditions.*
 
 ## Fonctionnalités
 
