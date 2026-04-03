@@ -12,6 +12,16 @@ A realistic honeypot system for pentesting training.
 Simulates fake targets with real attack simulation.
 
 [!] FOR EDUCATIONAL PURPOSES ONLY - USE ON YOUR OWN NETWORK OR LAB
+
+LEGAL NOTICE:
+This tool is provided for educational purposes only.
+- Use ONLY on your own infrastructure or in an isolated lab environment
+- You are SOLELY responsible for your use of this tool
+- Any unauthorized, illegal, or malicious use is strictly prohibited
+- The author CANNOT be held liable for any misuse by third parties
+- By using this tool, you accept these terms
+
+See LEGAL.md for full legal disclaimer.
 """
 
 import socket
