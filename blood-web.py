@@ -212,11 +212,20 @@ class HoneypotService:
         try:
             self.socket.bind(('0.0.0.0', self.port))
         except OSError as e:
-            if e.errno == 98:  # Address already in use
-                print(f"\033[91m[!]\033[0m Port {self.port} ({self.service_type.value}) déjà utilisé.")
-                print(f"\033[93m[!]\033[0m Lance 'sudo lsof -ti:{self.port} | xargs kill -9' pour libérer le port.")
-                print(f"\033[93m[!]\033[0m Ou utilise d'autres ports: python3 blood-web.py --custom-ports\n")
-            raise
+            if e.errno == 98:
+                print(f"""
+\033[91m[!]\033[0m Port {self.port} ({self.service_type.value}) déjà utilisé.
+
+\033[93m[?]\033[0m Pour voir quel processus utilise ce port:
+    sudo lsof -i:{self.port}
+
+\033[93m[>]\033[0m Pour libérer le port (uniquement si c'est blood-web):
+    pkill -f blood-web.py
+
+\033[93m[>]\033[0m Ou lance blood-web sur d'autres ports:
+    python3 blood-web.py --custom-ports 5522 5521 5800 5523 5445 53306 53389
+""")
+                return
         self.socket.listen(5)
         self.running = True
         
