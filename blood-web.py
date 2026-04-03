@@ -209,7 +209,14 @@ class HoneypotService:
         """Start the service"""
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.socket.bind(('0.0.0.0', self.port))
+        try:
+            self.socket.bind(('0.0.0.0', self.port))
+        except OSError as e:
+            if e.errno == 98:  # Address already in use
+                print(f"\033[91m[!]\033[0m Port {self.port} ({self.service_type.value}) déjà utilisé.")
+                print(f"\033[93m[!]\033[0m Lance 'sudo lsof -ti:{self.port} | xargs kill -9' pour libérer le port.")
+                print(f"\033[93m[!]\033[0m Ou utilise d'autres ports: python3 blood-web.py --custom-ports\n")
+            raise
         self.socket.listen(5)
         self.running = True
         
