@@ -23,389 +23,441 @@ DARK_THEME = """
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
-            color: #e0e0e0;
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #1e1e1e;
+            color: #d4d4d4;
             min-height: 100vh;
-            padding: 20px;
+            font-size: 13px;
         }
-        .header {
-            text-align: center;
-            padding: 30px;
-            background: rgba(139, 0, 0, 0.3);
-            border: 2px solid #8b0000;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
-        }
-        .header h1 {
-            font-size: 2.5em;
-            color: #ff4444;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000;
-            margin-bottom: 10px;
-        }
-        .header p {
-            color: #ff8888;
-            font-style: italic;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover {
-            border-color: #8b0000;
-            box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
-            transform: translateY(-5px);
-        }
-        .stat-card .value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #ff4444;
-        }
-        .stat-card .label {
-            color: #888;
-            text-transform: uppercase;
-            font-size: 0.8em;
-            letter-spacing: 2px;
-        }
-        .stat-card.critical .value { color: #ff0000; }
-        .stat-card.high .value { color: #ff6600; }
-        .stat-card.medium .value { color: #ffcc00; }
-        .stat-card.low .value { color: #00ff00; }
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        @media (max-width: 1000px) {
-            .container { grid-template-columns: 1fr; }
-        }
-        .panel {
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid #333;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .panel-header {
-            background: linear-gradient(90deg, #8b0000, #4a0000);
-            padding: 15px 20px;
-            font-size: 1.2em;
-            color: #fff;
+
+        /* ── Toolbar ─────────────────────────────────────────── */
+        .toolbar {
+            background: #2d2d2d;
+            border-bottom: 1px solid #3c3c3c;
+            padding: 6px 16px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 16px;
+            user-select: none;
         }
-        .panel-header .count {
-            background: rgba(0,0,0,0.3);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8em;
+        .toolbar-brand {
+            font-weight: 600;
+            font-size: 14px;
+            color: #e74c3c;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
-        .panel-content {
-            padding: 0;
-            max-height: 400px;
-            overflow-y: auto;
+        .toolbar-sep {
+            width: 1px;
+            height: 20px;
+            background: #3c3c3c;
         }
-        .panel-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        .panel-content::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-        .panel-content::-webkit-scrollbar-thumb {
-            background: #8b0000;
-            border-radius: 4px;
-        }
-        .attack-item {
-            padding: 12px 20px;
-            border-bottom: 1px solid #222;
-            display: grid;
-            grid-template-columns: 150px 1fr 100px;
-            gap: 15px;
-            align-items: center;
-            transition: background 0.2s;
-        }
-        .attack-item:hover {
-            background: rgba(139, 0, 0, 0.1);
-        }
-        .attack-item .time {
-            color: #666;
-            font-size: 0.85em;
-        }
-        .attack-item .source {
-            color: #ff6666;
-            font-weight: bold;
-        }
-        .attack-item .technique {
-            font-size: 0.9em;
-        }
-        .severity-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 3px;
-            font-size: 0.75em;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        .severity-critical { background: #8b0000; color: #fff; }
-        .severity-high { background: #ff3300; color: #fff; }
-        .severity-medium { background: #cc9900; color: #000; }
-        .severity-low { background: #006600; color: #fff; }
-        .chart-container {
-            padding: 20px;
-            height: 200px;
-        }
-        .service-list {
-            padding: 10px 20px;
-        }
-        .service-item {
+        .toolbar-stat {
             display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #222;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #999;
         }
-        .service-item:last-child { border-bottom: none; }
-        .service-name {
-            color: #ff8888;
-            font-weight: bold;
+        .toolbar-stat .val {
+            color: #e0e0e0;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
         }
-        .service-port {
-            color: #666;
+        .toolbar-stat.critical .val { color: #e74c3c; }
+        .toolbar-stat.high .val { color: #e67e22; }
+        .toolbar-stat.medium .val { color: #f1c40f; }
+        .toolbar-stat.low .val { color: #27ae60; }
+        .toolbar-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        .status-active { background: #00ff00; box-shadow: 0 0 5px #00ff00; }
-        .status-inactive { background: #ff0000; }
-        .live-indicator {
+        .live-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            color: #00ff00;
+            gap: 6px;
+            font-size: 11px;
+            color: #27ae60;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #00ff00;
+            width: 7px;
+            height: 7px;
+            background: #27ae60;
             border-radius: 50%;
-            animation: pulse 1s infinite;
+            animation: pulse 1.5s ease-in-out infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-        .top-ips {
-            padding: 10px 20px;
-        }
-        .ip-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #222;
-        }
-        .ip-item .count {
-            color: #ff4444;
-            font-weight: bold;
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
         .refresh-btn {
-            background: #8b0000;
-            border: none;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 5px;
+            background: #3c3c3c;
+            border: 1px solid #4c4c4c;
+            color: #d4d4d4;
+            padding: 4px 12px;
+            border-radius: 3px;
             cursor: pointer;
+            font-size: 12px;
             font-family: inherit;
-            transition: all 0.3s;
+            transition: background 0.15s;
         }
-        .refresh-btn:hover {
-            background: #aa0000;
-            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+        .refresh-btn:hover { background: #4c4c4c; }
+
+        /* ── Main layout ─────────────────────────────────────── */
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 37px);
         }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9em;
+
+        /* ── Packet list (attack table) ──────────────────────── */
+        .packet-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .packet-pane-header {
+            background: #2d2d2d;
+            border-bottom: 1px solid #3c3c3c;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .packet-table {
+            flex: 1;
+            overflow-y: auto;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .packet-table::-webkit-scrollbar { width: 8px; }
+        .packet-table::-webkit-scrollbar-track { background: #1e1e1e; }
+        .packet-table::-webkit-scrollbar-thumb { background: #3c3c3c; border-radius: 4px; }
+        .packet-table::-webkit-scrollbar-thumb:hover { background: #4c4c4c; }
+
+        .pkt-header {
+            display: grid;
+            grid-template-columns: 70px 130px 110px 80px 1fr 90px;
+            background: #252526;
+            border-bottom: 1px solid #3c3c3c;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .pkt-header span {
+            padding: 5px 10px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.3px;
+            border-right: 1px solid #333;
+            user-select: none;
+        }
+        .pkt-header span:last-child { border-right: none; }
+
+        .pkt-row {
+            display: grid;
+            grid-template-columns: 70px 130px 110px 80px 1fr 90px;
+            border-bottom: 1px solid #2a2a2a;
+            cursor: default;
+            transition: background 0.1s;
+        }
+        .pkt-row:hover { background: #2a2d2e; }
+        .pkt-row.selected { background: #264f78; }
+        .pkt-row span {
+            padding: 4px 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border-right: 1px solid #2a2a2a;
+            line-height: 22px;
+        }
+        .pkt-row span:last-child { border-right: none; }
+        .pkt-no { color: #666; }
+        .pkt-time { color: #888; }
+        .pkt-src { color: #d4d4d4; }
+        .pkt-svc { color: #569cd6; }
+        .pkt-tech { color: #d4d4d4; }
+        .pkt-sev {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.3px;
+        }
+        .sev-critical { color: #e74c3c; }
+        .sev-high { color: #e67e22; }
+        .sev-medium { color: #f1c40f; }
+        .sev-low { color: #27ae60; }
+
+        .pkt-row-odd { background: #1e1e1e; }
+        .pkt-row-even { background: #222222; }
+
+        /* ── Bottom pane (details + stats) ───────────────────── */
+        .bottom-pane {
+            height: 200px;
+            min-height: 150px;
+            border-top: 3px solid #3c3c3c;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            background: #1e1e1e;
+        }
+
+        /* Detail pane */
+        .detail-pane {
+            border-right: 1px solid #3c3c3c;
+            overflow-y: auto;
+        }
+        .detail-header {
+            background: #2d2d2d;
+            border-bottom: 1px solid #3c3c3c;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .detail-content {
+            padding: 8px 12px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .detail-content .field {
+            display: flex;
+            gap: 8px;
+        }
+        .detail-content .field-label {
+            color: #569cd6;
+            min-width: 140px;
+        }
+        .detail-content .field-value {
+            color: #d4d4d4;
+        }
+
+        /* Stats pane */
+        .stats-pane {
+            overflow-y: auto;
+        }
+        .stats-header {
+            background: #2d2d2d;
+            border-bottom: 1px solid #3c3c3c;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stats-content { padding: 8px 12px; }
+        .svc-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 12px;
+        }
+        .svc-row .svc-name { color: #d4d4d4; }
+        .svc-row .svc-count { color: #e74c3c; font-weight: 600; font-variant-numeric: tabular-nums; }
+        .svc-bar {
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+            margin-top: 2px;
+            overflow: hidden;
+        }
+        .svc-bar-fill {
+            height: 100%;
+            background: #e74c3c;
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        .ip-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 12px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+        .ip-row .ip-addr { color: #d4d4d4; }
+        .ip-row .ip-count { color: #e74c3c; font-weight: 600; }
+
+        /* ── Empty state ─────────────────────────────────────── */
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #555;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Blood-Web Monitor</h1>
-        <p>"All that and a bag of chips..."</p>
-    </div>
-    
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="value" id="total-attacks">0</div>
-            <div class="label">Total Attacks</div>
-        </div>
-        <div class="stat-card critical">
-            <div class="value" id="critical-count">0</div>
-            <div class="label">Critical</div>
-        </div>
-        <div class="stat-card high">
-            <div class="value" id="high-count">0</div>
-            <div class="label">High</div>
-        </div>
-        <div class="stat-card medium">
-            <div class="value" id="medium-count">0</div>
-            <div class="label">Medium</div>
-        </div>
-        <div class="stat-card low">
-            <div class="value" id="low-count">0</div>
-            <div class="label">Low</div>
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <span class="toolbar-brand">BLOOD-WEB</span>
+        <div class="toolbar-sep"></div>
+        <div class="toolbar-stat">Total <span class="val" id="total-attacks">0</span></div>
+        <div class="toolbar-sep"></div>
+        <div class="toolbar-stat critical">Critical <span class="val" id="critical-count">0</span></div>
+        <div class="toolbar-stat high">High <span class="val" id="high-count">0</span></div>
+        <div class="toolbar-stat medium">Medium <span class="val" id="medium-count">0</span></div>
+        <div class="toolbar-stat low">Low <span class="val" id="low-count">0</span></div>
+        <div class="toolbar-right">
+            <span class="live-badge"><span class="live-dot"></span>CAPTURING</span>
+            <button class="refresh-btn" onclick="fetchData()">Refresh</button>
         </div>
     </div>
-    
-    <div class="container">
-        <div class="panel">
-            <div class="panel-header">
-                <span><span class="live-indicator"><span class="live-dot"></span>LIVE FEED</span></span>
-                <span class="count" id="feed-count">0</span>
+
+    <div class="main">
+        <!-- Attack table -->
+        <div class="packet-pane">
+            <div class="packet-pane-header">
+                <span>Attack events</span>
+                <span id="feed-count">0 events</span>
             </div>
-            <div class="panel-content" id="attack-feed">
-                <div style="padding: 20px; color: #666; text-align: center;">
-                    Waiting for attacks...
+            <div class="packet-table" id="attack-feed">
+                <div class="pkt-header">
+                    <span>No.</span>
+                    <span>Time</span>
+                    <span>Source</span>
+                    <span>Service</span>
+                    <span>Technique</span>
+                    <span>Severity</span>
                 </div>
+                <div class="empty-state" id="empty-state">Waiting for connections...</div>
             </div>
         </div>
-        
-        <div>
-            <div class="panel" style="margin-bottom: 20px;">
-                <div class="panel-header">
-                    <span>Top Attackers</span>
-                </div>
-                <div class="top-ips" id="top-ips">
-                    <div style="color: #666; text-align: center; padding: 20px;">
-                        No data yet
-                    </div>
+
+        <!-- Bottom pane -->
+        <div class="bottom-pane">
+            <div class="detail-pane">
+                <div class="detail-header">Packet Details</div>
+                <div class="detail-content" id="detail-content">
+                    <div class="empty-state">Select an event to view details</div>
                 </div>
             </div>
-            
-            <div class="panel">
-                <div class="panel-header">
-                    <span>Attacks by Service</span>
-                </div>
-                <div class="service-list" id="service-stats">
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>SSH</span>
-                        <span class="service-port">Port 2222</span>
-                        <span id="ssh-count">0</span>
+            <div class="stats-pane">
+                <div class="stats-header">Statistics</div>
+                <div class="stats-content">
+                    <div style="margin-bottom: 10px;">
+                        <div style="color: #888; font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">By Service</div>
+                        <div id="service-stats"></div>
                     </div>
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>FTP</span>
-                        <span class="service-port">Port 2121</span>
-                        <span id="ftp-count">0</span>
-                    </div>
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>HTTP</span>
-                        <span class="service-port">Port 8080</span>
-                        <span id="http-count">0</span>
-                    </div>
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>Telnet</span>
-                        <span class="service-port">Port 2323</span>
-                        <span id="telnet-count">0</span>
-                    </div>
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>SMB</span>
-                        <span class="service-port">Port 4445</span>
-                        <span id="smb-count">0</span>
-                    </div>
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>MySQL</span>
-                        <span class="service-port">Port 3306</span>
-                        <span id="mysql-count">0</span>
-                    </div>
-                    <div class="service-item">
-                        <span><span class="status-dot status-active"></span>RDP</span>
-                        <span class="service-port">Port 3389</span>
-                        <span id="rdp-count">0</span>
+                    <div>
+                        <div style="color: #888; font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">Top Sources</div>
+                        <div id="top-ips"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="footer">
-        <p>Blood-Web Honeypot v1.0 | <button class="refresh-btn" onclick="location.reload()">Refresh</button></p>
-    </div>
-    
+
     <script>
-        let attackData = [];
-        let updateInterval;
-        
+        let allAttacks = [];
+        let selectedIdx = -1;
+
         async function fetchData() {
             try {
                 const response = await fetch('/api/stats');
                 const data = await response.json();
                 updateDashboard(data);
-            } catch (e) {
-                console.log('Waiting for data...');
-            }
+            } catch (e) {}
         }
-        
+
         function updateDashboard(data) {
             if (!data || !data.attacks) return;
-            
+
             document.getElementById('total-attacks').textContent = data.total || 0;
             document.getElementById('critical-count').textContent = data.severity?.CRITICAL || 0;
             document.getElementById('high-count').textContent = data.severity?.HIGH || 0;
             document.getElementById('medium-count').textContent = data.severity?.MEDIUM || 0;
             document.getElementById('low-count').textContent = data.severity?.LOW || 0;
-            
-            const services = data.by_service || {};
-            document.getElementById('ssh-count').textContent = services.ssh || 0;
-            document.getElementById('ftp-count').textContent = services.ftp || 0;
-            document.getElementById('http-count').textContent = services.http || 0;
-            document.getElementById('telnet-count').textContent = services.telnet || 0;
-            document.getElementById('smb-count').textContent = services.smb || 0;
-            document.getElementById('mysql-count').textContent = services.mysql || 0;
-            document.getElementById('rdp-count').textContent = services.rdp || 0;
-            
-            const topIps = data.top_ips || [];
-            const ipsContainer = document.getElementById('top-ips');
-            if (topIps.length > 0) {
-                ipsContainer.innerHTML = topIps.map(ip => 
-                    '<div class="ip-item"><span class="source">' + ip.ip + '</span><span class="count">' + ip.count + '</span></div>'
-                ).join('');
-            }
-            
-            const attacks = data.attacks.slice(-20).reverse();
-            const feedContainer = document.getElementById('attack-feed');
-            document.getElementById('feed-count').textContent = data.attacks.length;
-            
-            if (attacks.length > 0) {
-                feedContainer.innerHTML = attacks.map(atk => {
-                    const time = new Date(atk.timestamp).toLocaleTimeString();
-                    const severity = atk.severity.toLowerCase();
-                    return '<div class="attack-item">' +
-                        '<span class="time">' + time + '</span>' +
-                        '<span class="source">' + atk.source_ip + '</span>' +
-                        '<span class="technique"><span class="severity-badge severity-' + severity + '">' + atk.technique + '</span></span>' +
-                        '</div>';
-                }).join('');
-            }
-            
-            attackData = data;
+            document.getElementById('feed-count').textContent = (data.attacks.length) + ' events';
+
+            allAttacks = data.attacks.slice(-100).reverse();
+            renderPacketList();
+            renderServiceStats(data.by_service || {});
+            renderTopIps(data.top_ips || []);
         }
-        
+
+        function renderPacketList() {
+            const container = document.getElementById('attack-feed');
+            const empty = document.getElementById('empty-state');
+            if (allAttacks.length === 0) {
+                empty.style.display = 'flex';
+                return;
+            }
+            empty.style.display = 'none';
+
+            let html = '<div class="pkt-header"><span>No.</span><span>Time</span><span>Source</span><span>Service</span><span>Technique</span><span>Severity</span></div>';
+            allAttacks.forEach((atk, i) => {
+                const time = new Date(atk.timestamp).toLocaleTimeString();
+                const sev = (atk.severity || '').toLowerCase();
+                const odd = i % 2 === 0 ? 'pkt-row-odd' : 'pkt-row-even';
+                html += '<div class="pkt-row ' + odd + '" onclick="selectEvent(' + i + ')">' +
+                    '<span class="pkt-no">' + (i + 1) + '</span>' +
+                    '<span class="pkt-time">' + time + '</span>' +
+                    '<span class="pkt-src">' + atk.source_ip + '</span>' +
+                    '<span class="pkt-svc">' + (atk.service || '') + '</span>' +
+                    '<span class="pkt-tech">' + (atk.technique || '') + '</span>' +
+                    '<span class="pkt-sev sev-' + sev + '">' + sev + '</span>' +
+                    '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function selectEvent(idx) {
+            selectedIdx = idx;
+            const atk = allAttacks[idx];
+            if (!atk) return;
+
+            const rows = document.querySelectorAll('.pkt-row');
+            rows.forEach((r, i) => r.classList.toggle('selected', i === idx));
+
+            const detail = document.getElementById('detail-content');
+            detail.innerHTML =
+                '<div class="field"><span class="field-label">Timestamp</span><span class="field-value">' + atk.timestamp + '</span></div>' +
+                '<div class="field"><span class="field-label">Source IP</span><span class="field-value">' + atk.source_ip + '</span></div>' +
+                '<div class="field"><span class="field-label">Service</span><span class="field-value">' + (atk.service || 'N/A') + '</span></div>' +
+                '<div class="field"><span class="field-label">Technique</span><span class="field-value">' + (atk.technique || 'N/A') + '</span></div>' +
+                '<div class="field"><span class="field-label">Severity</span><span class="field-value sev-' + (atk.severity || '').toLowerCase() + '">' + (atk.severity || 'N/A') + '</span></div>' +
+                '<div class="field"><span class="field-label">Payload</span><span class="field-value">' + (atk.payload || 'N/A') + '</span></div>';
+        }
+
+        function renderServiceStats(services) {
+            const container = document.getElementById('service-stats');
+            const total = Object.values(services).reduce((a, b) => a + b, 0) || 1;
+            const order = ['ssh', 'ftp', 'http', 'telnet', 'smb', 'mysql', 'rdp'];
+            let html = '';
+            order.forEach(svc => {
+                const count = services[svc] || 0;
+                const pct = (count / total * 100).toFixed(0);
+                html += '<div class="svc-row"><span class="svc-name">' + svc.toUpperCase() + '</span><span class="svc-count">' + count + '</span></div>' +
+                    '<div class="svc-bar"><div class="svc-bar-fill" style="width:' + pct + '%"></div></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function renderTopIps(ips) {
+            const container = document.getElementById('top-ips');
+            if (ips.length === 0) {
+                container.innerHTML = '<div style="color:#555;font-size:12px;">No data</div>';
+                return;
+            }
+            container.innerHTML = ips.slice(0, 8).map(ip =>
+                '<div class="ip-row"><span class="ip-addr">' + ip.ip + '</span><span class="ip-count">' + ip.count + '</span></div>'
+            ).join('');
+        }
+
         fetchData();
         setInterval(fetchData, 3000);
     </script>
