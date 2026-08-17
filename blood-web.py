@@ -201,6 +201,7 @@ class HoneypotService:
         self.socket: Optional[socket.socket] = None
         self.logger = None
         self.running = False
+        self.theme = GothicTheme()
         
     def set_logger(self, logger):
         self.logger = logger
@@ -969,7 +970,17 @@ class SMBHoneypot(HoneypotService):
         
     def _send_error_response(self, client: socket.socket, error_code: int):
         """Send SMB error response"""
-        pass
+        response = bytes([
+            0x40, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x05, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+        ])
+        response += error_code.to_bytes(4, 'little')
+        try:
+            client.send(response)
+        except Exception:
+            pass
 
 
 class MySQLHoneypot(HoneypotService):
